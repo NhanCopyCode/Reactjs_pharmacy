@@ -6,14 +6,15 @@ import * as actions from "../../store/actions";
 
 import "./Login.scss";
 import { FormattedMessage } from "react-intl";
-
+import { handleLogin } from "../../services/userService";
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "ThanhNhan",
-            password: "123",
+            email: "",
+            password: "",
             isShowPassword: false,
+            messageError: '',
         };
     }
 
@@ -27,29 +28,59 @@ class Login extends Component {
 
     handleShowPassword = (event) => {
         this.setState({
-            isShowPassword : !this.state.isShowPassword,
+            isShowPassword: !this.state.isShowPassword,
+        });
+    };
+
+    handleLogin = async (event) => {
+        this.setState({
+            messageError: ''
         })
-    }
+        event.preventDefault();
+        const email = this.state.email;
+        const password = this.state.password;
+        console.log(email, password);
+        try {
+            let data = await handleLogin(email, password);
+            if(data && data.errCode !== 0) {
+                this.setState({
+                    messageError: data.message
+                })
+            }
+            if(data && data.errCode === 0) {
+                this.props.userLoginSuccess(data.user);
+                console.log('Login succed!!');
+                
+            }
+            
+        } catch (e) {
+            if(e.response && e.response.data) {
+                this.setState({
+                    messageError: e.response.data.message
+                })
+            }
+        }
+    };
     render() {
         return (
             <>
                 <div id="login_form__container">
-                    <form className="login_form">
+                    <form className="login_form" method="POST">
                         <h1 className="text-center title">Login form</h1>
                         <div className="form-group mt-4">
-                            <label htmlFor="username">User name</label>
+                            <label htmlFor="email">Email name</label>
                             <input
-                                id="username"
+                                id="email"
                                 type="text"
                                 className="form-control"
-                                placeholder="Enter username..."
-                                name="username"
-                                value={this.state.username}
+                                placeholder="Enter email..."
+                                name="email"
+                                value={this.state.email}
                                 onChange={this.handleOnChangeInput}
                             />
                         </div>
                         <div className="form-group mt-4 position-relative">
-                            <label htmlFor="password">User name</label>
+                            <label htmlFor="password">Password</label>
                             <input
                                 type={
                                     this.state.isShowPassword
@@ -72,13 +103,21 @@ class Login extends Component {
                                 onClick={this.handleShowPassword}
                             ></i>
                         </div>
+                        <div style={{color: "red"}}>
+                            {this.state.messageError}
+                        </div>
                         <div className="mt-3">
                             <span className="link-primary">
                                 Forgot your password
                             </span>
                         </div>
                         <div className="d-flex justify-content-center">
-                            <button className="btn btn-primary">Login</button>
+                            <button
+                                className="btn btn-primary"
+                                onClick={this.handleLogin}
+                            >
+                                Login
+                            </button>
                         </div>
                         <div>
                             <span className="login_with">Login with: </span>
@@ -103,9 +142,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         navigate: (path) => dispatch(push(path)),
-        adminLoginSuccess: (adminInfo) =>
-            dispatch(actions.adminLoginSuccess(adminInfo)),
-        adminLoginFail: () => dispatch(actions.adminLoginFail()),
+       
+        // userLoginFail: () => dispatch(actions.userLoginFail()),
+        userLoginSuccess: (userInfo) =>
+            dispatch(actions.userLoginSuccess(userInfo)),
     };
 };
 
