@@ -3,11 +3,13 @@ import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./UserManage.scss";
 import { getAllUsers } from "../../services/userService";
+import ModalUser from "./ModalUser";
 class UserManage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             listUsers: [],
+            isOpenModalUser: false,
         };
     }
 
@@ -21,14 +23,44 @@ class UserManage extends Component {
         }
     }
 
+    handleAddNewUser = () => {
+        this.setState({
+            isOpenModalUser: true,
+        });
+    };
+
+    handleToggleModalUser = () => {
+        console.log(123);
+        
+        this.setState({
+            isOpenModalUser: !this.state.isOpenModalUser,
+        });
+    };
+
     render() {
         const listUsers = this.state.listUsers;
         return (
-            <div className="user-container mt-5">
-                <div className="text-center user-management-title">Manage users ThanhNhangg</div>
-                <table className="table mt-5">
+            <div className="user-container mt-5 container">
+                <div className="text-center user-management-title">
+                    Manage users ThanhNhangg
+                </div>
+                <button
+                    className="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                    onClick={this.handleAddNewUser}
+                >
+                    Add new user
+                </button>
+                <ModalUser
+                    isOpenModalUser={this.state.isOpenModalUser}
+                    handleToggleModalUser={this.handleToggleModalUser}
+                />
+                <table className="table mt-2">
                     <thead className="table-dark">
                         <tr>
+                            <th>Id</th>
+
                             <th>Email</th>
                             <th>First name</th>
                             <th>Last name</th>
@@ -42,6 +74,7 @@ class UserManage extends Component {
                             listUsers.map((item, index) => {
                                 return (
                                     <tr key={item.id}>
+                                        <td>{item.id}</td>
                                         <td>{item.email}</td>
                                         <td>{item.firstName}</td>
                                         <td>{item.lastName}</td>
