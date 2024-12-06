@@ -6,14 +6,12 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 class ModalUser extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-        }
+        this.state = {};
     }
 
     toggle = () => {
         this.props.handleToggleModalUser();
-    }
+    };
 
     componentDidMount() {}
 
@@ -21,25 +19,66 @@ class ModalUser extends Component {
         console.log(this.props);
         let isOpenModal = this.props.isOpenModalUser;
         return (
-            <Modal isOpen={isOpenModal} toggle={() => this.toggle()}>
+            <Modal isOpen={isOpenModal} toggle={() => this.toggle()} centered>
                 <ModalHeader toggle={() => this.toggle()}>
                     Create new user
                 </ModalHeader>
                 <ModalBody>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
+                    <div className="container">
+                        <div className="row">
+                            <div className="form-group col-6">
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    id="email"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter email..."
+                                />
+                            </div>
+                            <div className="form-group col-6">
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    className="form-control"
+                                    placeholder="Enter password..."
+                                />
+                            </div>
+                            <div className="form-group col-6">
+                                <label htmlFor="firstName">First name</label>
+                                <input
+                                    id="firstName"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter first name..."
+                                />
+                            </div>
+                            <div className="form-group col-6">
+                                <label htmlFor="lastName">Last name</label>
+                                <input
+                                    id="lastName"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter last name..."
+                                />
+                            </div>
+                            <div className="form-group col-12">
+                                <label htmlFor="firstName">Address</label>
+                                <input
+                                    id="firstName"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter first name..."
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={() => this.toggle()}>
-                        Do Something
+                        Add new
                     </Button>{" "}
-                    <Button color="secondary" onClick={() => this.toggle()}>
+                    <Button color="danger" onClick={() => this.toggle()}>
                         Cancel
                     </Button>
                 </ModalFooter>
