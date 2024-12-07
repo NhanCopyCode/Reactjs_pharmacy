@@ -6,17 +6,72 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 class ModalUser extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            email: "",
+            password: "",
+            firstName: "",
+            lastName: "",
+            address: "",
+        };
     }
 
     toggle = () => {
         this.props.handleToggleModalUser();
     };
 
+    clearState = () => {
+        this.setState({
+            email: "",
+            password: "",
+            firstName: "",
+            lastName: "",
+            address: "",
+        });
+    };
+
+    handleOnChangeInput = (event) => {
+        let fieldInput = event.target.id;
+        this.setState({
+            [fieldInput]: event.target.value,
+        });
+    };
+
+    checkValidateInput = (input) => {
+        let arrInput = [
+            "email",
+            "password",
+            "firstName",
+            "lastName",
+            "address",
+        ];
+
+        let invalidField = arrInput.filter(
+            (field) => !input[field] || input[field].trim() === ""
+        );
+        console.log(invalidField);
+        if (invalidField.length > 0) {
+            alert(`Invalid field input ${invalidField.join(", ")}`);
+            return false;
+        }
+        return true;
+    };
+
+    handleAddNewUser = async (event) => {
+        const isValid = this.checkValidateInput(this.state);
+        if (isValid) {
+            //call api create user
+            const data = this.state;
+            const isUserCreated = await this.props.createNewUser(data);
+            console.log("is user created: ", isUserCreated);
+            if (isUserCreated) {
+                console.log("clear state");
+                this.clearState();
+            }
+        }
+    };
     componentDidMount() {}
 
     render() {
-        console.log(this.props);
         let isOpenModal = this.props.isOpenModalUser;
         return (
             <Modal isOpen={isOpenModal} toggle={() => this.toggle()} centered>
@@ -25,7 +80,7 @@ class ModalUser extends Component {
                 </ModalHeader>
                 <ModalBody>
                     <div className="container">
-                        <div className="row">
+                        <form className="row">
                             <div className="form-group col-6">
                                 <label htmlFor="email">Email</label>
                                 <input
@@ -33,6 +88,9 @@ class ModalUser extends Component {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter email..."
+                                    required
+                                    value={this.state.email}
+                                    onChange={this.handleOnChangeInput}
                                 />
                             </div>
                             <div className="form-group col-6">
@@ -42,6 +100,9 @@ class ModalUser extends Component {
                                     type="password"
                                     className="form-control"
                                     placeholder="Enter password..."
+                                    required
+                                    value={this.state.password}
+                                    onChange={this.handleOnChangeInput}
                                 />
                             </div>
                             <div className="form-group col-6">
@@ -51,6 +112,9 @@ class ModalUser extends Component {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter first name..."
+                                    required
+                                    value={this.state.firstName}
+                                    onChange={this.handleOnChangeInput}
                                 />
                             </div>
                             <div className="form-group col-6">
@@ -60,22 +124,31 @@ class ModalUser extends Component {
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter last name..."
+                                    required
+                                    value={this.state.lastName}
+                                    onChange={this.handleOnChangeInput}
                                 />
                             </div>
                             <div className="form-group col-12">
-                                <label htmlFor="firstName">Address</label>
+                                <label htmlFor="address">Address</label>
                                 <input
-                                    id="firstName"
+                                    id="address"
                                     type="text"
                                     className="form-control"
                                     placeholder="Enter first name..."
+                                    required
+                                    value={this.state.address}
+                                    onChange={this.handleOnChangeInput}
                                 />
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={() => this.toggle()}>
+                    <Button
+                        color="primary"
+                        onClick={(e) => this.handleAddNewUser(e)}
+                    >
                         Add new
                     </Button>{" "}
                     <Button color="danger" onClick={() => this.toggle()}>

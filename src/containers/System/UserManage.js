@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./UserManage.scss";
-import { getAllUsers } from "../../services/userService";
+import { getAllUsers, createUserService } from "../../services/userService";
 import ModalUser from "./ModalUser";
 class UserManage extends Component {
     constructor(props) {
@@ -14,14 +14,17 @@ class UserManage extends Component {
     }
 
     async componentDidMount() {
+        this.renderListUser();
+    }
+
+    renderListUser = async () => {
         const response = await getAllUsers("ALL");
-        console.log(response);
         if (response && response.errCode === 0) {
             this.setState({
                 listUsers: response.users,
             });
         }
-    }
+    };
 
     handleAddNewUser = () => {
         this.setState({
@@ -30,11 +33,27 @@ class UserManage extends Component {
     };
 
     handleToggleModalUser = () => {
-        console.log(123);
-        
+
         this.setState({
             isOpenModalUser: !this.state.isOpenModalUser,
         });
+    };
+
+    createNewUser = async (data) => {
+        try {
+            const response = await createUserService(data);
+            if(response && response.errCode !== 0) {
+                return alert(response.errMessage);
+            }
+            this.renderListUser();
+            this.setState({
+                isOpenModalUser: false,
+            })
+
+            return true;
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     render() {
@@ -55,6 +74,7 @@ class UserManage extends Component {
                 <ModalUser
                     isOpenModalUser={this.state.isOpenModalUser}
                     handleToggleModalUser={this.handleToggleModalUser}
+                    createNewUser={this.createNewUser}
                 />
                 <table className="table mt-2">
                     <thead className="table-dark">
