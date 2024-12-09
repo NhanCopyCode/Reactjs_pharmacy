@@ -7,11 +7,13 @@ class ModalUpdateUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: "",
             email: "",
             password: "",
             firstName: "",
             lastName: "",
             address: "",
+            roleId: "1",
         };
     }
 
@@ -21,11 +23,13 @@ class ModalUpdateUser extends Component {
 
     clearState = () => {
         this.setState({
+            id: "",
             email: "",
             password: "",
             firstName: "",
             lastName: "",
             address: "",
+            roleId: "1",
         });
     };
 
@@ -56,20 +60,27 @@ class ModalUpdateUser extends Component {
         return true;
     };
 
-    handleAddNewUser = async (event) => {
+    handleUpdateUser = async (event) => {
         const isValid = this.checkValidateInput(this.state);
         if (isValid) {
             //call api create user
             const data = this.state;
-            const isUserCreated = await this.props.createNewUser(data);
-            console.log("is user created: ", isUserCreated);
-            if (isUserCreated) {
-                console.log("clear state");
-                this.clearState();
-            }
+            console.log('data update user: ', data);
+            this.props.handleUserEdit(data);
+           
         }
     };
-    componentDidMount() {}
+    componentDidMount() {
+        const user = this.props.currentUser;
+        this.setState({
+            id: user.id,
+            password: "Hard code",
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            address: user.address,
+        });
+    }
 
     render() {
         let isOpenModal = this.props.isOpenModalUpdateUser;
@@ -147,7 +158,7 @@ class ModalUpdateUser extends Component {
                 <ModalFooter>
                     <Button
                         color="primary"
-                        onClick={(e) => this.handleAddNewUser(e)}
+                        onClick={(e) => this.handleUpdateUser(e)}
                     >
                         Update user
                     </Button>{" "}

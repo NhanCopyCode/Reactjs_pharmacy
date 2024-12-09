@@ -18,6 +18,7 @@ class UserManage extends Component {
             listUsers: [],
             isOpenModalUser: false,
             isOpenModalUpdateUser: false,
+            currentUser: {},
         };
     }
 
@@ -49,8 +50,8 @@ class UserManage extends Component {
     handleToggleModalUpdateUser = () => {
         this.setState({
             isOpenModalUpdateUser: !this.state.isOpenModalUpdateUser,
-        })
-    }
+        });
+    };
 
     createNewUser = async (data) => {
         try {
@@ -64,7 +65,7 @@ class UserManage extends Component {
             });
 
             // return true;
-            emitter.emit('EVENT_CLEAR_MODAL_DATA')
+            emitter.emit("EVENT_CLEAR_MODAL_DATA");
         } catch (error) {
             console.log(error);
         }
@@ -83,10 +84,24 @@ class UserManage extends Component {
 
     handleUpdateUser = (event, user) => {
         this.handleToggleModalUpdateUser();
-        
-    }
-    sendUserDataToChild = () => {
+        this.setState({
+            currentUser: user,
+        });
+    };
 
+    doEditUser = async (user) => {
+        try {
+            const res = await updateUserService(user);
+            if(res && res.errCode !== 0) {
+                return alert(res.errMessage);
+            }
+            this.renderListUser();
+            this.setState({
+                isOpenModalUpdateUser: false,
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     render() {
@@ -104,10 +119,16 @@ class UserManage extends Component {
                 >
                     Add new user
                 </button>
-                <ModalUpdateUser
-                    isOpenModalUpdateUser={this.state.isOpenModalUpdateUser}
-                    handleToggleModalUpdateUser={this.handleToggleModalUpdateUser}
-                />
+                {this.state.isOpenModalUpdateUser && (
+                    <ModalUpdateUser
+                        isOpenModalUpdateUser={this.state.isOpenModalUpdateUser}
+                        handleToggleModalUpdateUser={
+                            this.handleToggleModalUpdateUser
+                        }
+                        currentUser={this.state.currentUser}
+                        handleUserEdit={this.doEditUser}
+                    />
+                )}
                 <ModalUser
                     isOpenModalUser={this.state.isOpenModalUser}
                     handleToggleModalUser={this.handleToggleModalUser}
