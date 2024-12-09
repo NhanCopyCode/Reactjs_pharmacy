@@ -8,9 +8,27 @@ const getAllUsers = (id) => {
 };
 
 const createUserService = (data) => {
-    console.log("check data from service: ", data);
     data.roleId = 1;
     return axios.post("/api/create-new-user", data);
 };
 
-export { handleLogin, getAllUsers, createUserService };
+const deleteUserService = (id) => {
+    if (id) {
+        
+        return axios.delete("/api/delete-user",{ data: {id}});
+    }
+};
+
+const updateUserService = (data) => {
+    if (data) {
+        return axios.delete("/api/delete-user", { data: { data } });
+    }
+};
+
+export {
+    handleLogin,
+    getAllUsers,
+    createUserService,
+    deleteUserService,
+    updateUserService,
+};

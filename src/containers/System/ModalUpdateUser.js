@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { emitter } from "../../utils/emitter";
 
-class ModalUser extends Component {
+class ModalUpdateUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,17 +13,10 @@ class ModalUser extends Component {
             lastName: "",
             address: "",
         };
-        this.listenToEmitter();
-    }
-
-    listenToEmitter = () => {
-        emitter.on('EVENT_CLEAR_MODAL_DATA', () => {
-            this.clearState();
-        })
     }
 
     toggle = () => {
-        this.props.handleToggleModalUser();
+        this.props.handleToggleModalUpdateUser();
     };
 
     clearState = () => {
@@ -56,6 +48,7 @@ class ModalUser extends Component {
         let invalidField = arrInput.filter(
             (field) => !input[field] || input[field].trim() === ""
         );
+        console.log(invalidField);
         if (invalidField.length > 0) {
             alert(`Invalid field input ${invalidField.join(", ")}`);
             return false;
@@ -68,18 +61,22 @@ class ModalUser extends Component {
         if (isValid) {
             //call api create user
             const data = this.state;
-            await this.props.createNewUser(data);
-         
+            const isUserCreated = await this.props.createNewUser(data);
+            console.log("is user created: ", isUserCreated);
+            if (isUserCreated) {
+                console.log("clear state");
+                this.clearState();
+            }
         }
     };
     componentDidMount() {}
 
     render() {
-        let isOpenModal = this.props.isOpenModalUser;
+        let isOpenModal = this.props.isOpenModalUpdateUser;
         return (
             <Modal isOpen={isOpenModal} toggle={() => this.toggle()} centered>
                 <ModalHeader toggle={() => this.toggle()}>
-                    Create new user
+                    Edit user
                 </ModalHeader>
                 <ModalBody>
                     <div className="container">
@@ -152,7 +149,7 @@ class ModalUser extends Component {
                         color="primary"
                         onClick={(e) => this.handleAddNewUser(e)}
                     >
-                        Add new
+                        Update user
                     </Button>{" "}
                     <Button color="danger" onClick={() => this.toggle()}>
                         Cancel
@@ -171,4 +168,4 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalUser);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalUpdateUser);
