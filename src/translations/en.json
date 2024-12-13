@@ -1,4 +1,13 @@
 {
+    "home-header": {
+        "homepage": "Home page",
+        "atHome": "At home",
+        "atHospital": "At hospital",
+        "liveHealthy": "Live healthy",
+        "support": "Support",
+        "findDoctor": "Find doctor"
+
+    },
     "common": {
         "add": "Add",
         "edit": "Edit",

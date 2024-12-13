@@ -1,4 +1,12 @@
 {
+    "home-header": {
+        "homepage": "Trang chủ",
+        "atHome": "Tại nhà",
+        "atHospital": "Tại viện",
+        "liveHealthy": "Sống khỏe",
+        "support": "Hỗ trợ",
+        "findDoctor": "Tìm bác sĩ"
+    },
     "common": {
         "add": "Thêm",
         "edit": "Sửa",
