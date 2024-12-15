@@ -11,11 +11,17 @@ import tinh_than from "../../assets/images/banners/tinh_than.svg";
 import nha_khoa from "../../assets/images/banners/nha_khoa.svg";
 import { FormattedMessage } from "react-intl";
 import { injectIntl } from "react-intl";
+import { LANGUAGES } from "../../utils/constant";
+import { lang } from "moment";
+import { changeLanguageApp } from "../../store/actions";
 
 class HomeHeader extends Component {
+    handleChangeLanguage = (language) => {
+        this.props.changeLanguageAppRedux(language);
+    }
     render() {
-        console.log("props from header component: ", this.props);
         const {intl} = this.props;
+        const language = this.props.lang;
         return (
             <>
                 <section className="header">
@@ -61,8 +67,8 @@ class HomeHeader extends Component {
                                     <FormattedMessage id="home-header.support" />
                                 </span>
                                 <div className="language">
-                                    <span>VN</span>
-                                    <span>EN</span>
+                                    <span className={language ==  LANGUAGES.VI ? 'active' : ''} onClick={() => this.handleChangeLanguage(LANGUAGES.VI)}>VN</span>
+                                    <span className={language == LANGUAGES.EN ? 'active' : ''} onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}>EN</span>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +139,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language))
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(HomeHeader));
