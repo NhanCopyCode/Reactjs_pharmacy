@@ -14,14 +14,20 @@ import { injectIntl } from "react-intl";
 import { LANGUAGES } from "../../utils/constant";
 import { lang } from "moment";
 import { changeLanguageApp } from "../../store/actions";
+import NextArrow from "./Section/NextArrow";
+import PrevArrow from "./Section/PrevArrow";
 
 class HomeHeader extends Component {
     handleChangeLanguage = (language) => {
         this.props.changeLanguageAppRedux(language);
-    }
+    };
     render() {
-        const {intl} = this.props;
+        const { intl } = this.props;
         const language = this.props.lang;
+        const settings = {
+            dots: true,
+          
+        };
         return (
             <>
                 <section className="header">
@@ -67,8 +73,34 @@ class HomeHeader extends Component {
                                     <FormattedMessage id="home-header.support" />
                                 </span>
                                 <div className="language">
-                                    <span className={language ==  LANGUAGES.VI ? 'active' : ''} onClick={() => this.handleChangeLanguage(LANGUAGES.VI)}>VN</span>
-                                    <span className={language == LANGUAGES.EN ? 'active' : ''} onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}>EN</span>
+                                    <span
+                                        className={
+                                            language == LANGUAGES.VI
+                                                ? "active"
+                                                : ""
+                                        }
+                                        onClick={() =>
+                                            this.handleChangeLanguage(
+                                                LANGUAGES.VI
+                                            )
+                                        }
+                                    >
+                                        VN
+                                    </span>
+                                    <span
+                                        className={
+                                            language == LANGUAGES.EN
+                                                ? "active"
+                                                : ""
+                                        }
+                                        onClick={() =>
+                                            this.handleChangeLanguage(
+                                                LANGUAGES.EN
+                                            )
+                                        }
+                                    >
+                                        EN
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -120,12 +152,7 @@ class HomeHeader extends Component {
                         </ul>
                     </div>
                 </section>
-                <section className="info circle">
-                    <div className="container">
-                        <h3 className="content-title">Dành cho bạn</h3>
-                        <div></div>
-                    </div>
-                </section>
+               
             </>
         );
     }
@@ -140,8 +167,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language))
+        changeLanguageAppRedux: (language) =>
+            dispatch(changeLanguageApp(language)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(HomeHeader));
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(injectIntl(HomeHeader));

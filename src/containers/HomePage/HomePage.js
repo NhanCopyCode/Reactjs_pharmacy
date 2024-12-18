@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import HomeHeader from "./HomeHeader";
-
+import Sepecialty from "./Section/Sepecialty";
+import NextArrow from "./Section/NextArrow";
 class HomePage extends Component {
     render() {
       
@@ -10,6 +11,7 @@ class HomePage extends Component {
         return (
              <div>
                 <HomeHeader />
+                <Sepecialty />
             </div>
         )
     }
