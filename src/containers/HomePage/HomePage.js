@@ -4,16 +4,30 @@ import { connect } from "react-redux";
 import HomeHeader from "./HomeHeader";
 import Sepecialty from "./Section/Sepecialty";
 import NextArrow from "./Section/NextArrow";
+import PrevArrow from "./Section/PrevArrow";
+import MedicalFacility from "./Section/MedicalFacility";
+import "./HomePage.scss";
+
+
 class HomePage extends Component {
     render() {
-      
+        let settings = {
+            dots: false,
+            speed: 300,
+            infinite: true,
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            nextArrow: <NextArrow />,
+            prevArrow: <PrevArrow />,
+        };
 
         return (
-             <div>
+            <div>
                 <HomeHeader />
-                <Sepecialty />
+                <Sepecialty settings={settings} />
+                <MedicalFacility settings={settings} />
             </div>
-        )
+        );
     }
 }
 
