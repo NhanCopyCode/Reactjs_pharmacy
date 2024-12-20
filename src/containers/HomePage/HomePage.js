@@ -9,6 +9,8 @@ import MedicalFacility from "./Section/MedicalFacility";
 import "./HomePage.scss";
 import OutstandingDoctor from "./Section/OutstandingDoctor";
 import HandBook from "./Section/HandBook";
+import HomeFooter from "./Section/HomeFooter";
+import About from "./Section/About";
 
 class HomePage extends Component {
     render() {
@@ -35,6 +37,8 @@ class HomePage extends Component {
                     background={"have_background"}
                 />
                 <HandBook settings={settings} />
+                <About />
+                <HomeFooter />
             </div>
         );
     }

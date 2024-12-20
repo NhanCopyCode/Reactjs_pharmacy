@@ -1,0 +1,33 @@
+section.section_footer {
+    background-color: #ccc;
+    padding: 24px;
+    .footer_content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 0;
+            a {
+                color: inherit;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+section.section_about {
+    padding: 40px 12px;
+    .about_title {
+        font-size: 26px;
+        font-weight: bold;
+        text-align: left;
+        margin-left: 22px;
+    }
+    .about_content {
+        .about_video {
+            height: 500px;
+        }
+    }
+}
