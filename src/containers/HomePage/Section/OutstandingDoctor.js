@@ -8,14 +8,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import sepcialty_image from "../../../assets/images/specialty/specialty_image.jpg";
 
-class MedicalFacility extends Component {
+class OutstandingDoctor extends Component {
     render() {
         const settings = this.props.settings;
+        const haveBackground = this.props.background;
+        let sectionClassName = "section_specialty section_slide " + haveBackground;
         return (
-            <section className="section_specialty section_slide ">
+            <section className={sectionClassName}>
                 <div className="container">
                     <div className="specialty_header">
-                        <h1>Cơ sở y tế</h1>
+                        <h1>Bác sĩ nổi bật</h1>
                         <button className="see_more">Xem thêm</button>
                     </div>
                     <Slider {...settings} className="slider">
@@ -91,4 +93,4 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MedicalFacility);
+export default connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor);

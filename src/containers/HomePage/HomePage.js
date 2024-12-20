@@ -7,7 +7,8 @@ import NextArrow from "./Section/NextArrow";
 import PrevArrow from "./Section/PrevArrow";
 import MedicalFacility from "./Section/MedicalFacility";
 import "./HomePage.scss";
-
+import OutstandingDoctor from "./Section/OutstandingDoctor";
+import HandBook from "./Section/HandBook";
 
 class HomePage extends Component {
     render() {
@@ -24,8 +25,16 @@ class HomePage extends Component {
         return (
             <div>
                 <HomeHeader />
-                <Sepecialty settings={settings} />
+                <Sepecialty
+                    settings={settings}
+                    background={"have_background"}
+                />
                 <MedicalFacility settings={settings} />
+                <OutstandingDoctor
+                    settings={settings}
+                    background={"have_background"}
+                />
+                <HandBook settings={settings} />
             </div>
         );
     }
