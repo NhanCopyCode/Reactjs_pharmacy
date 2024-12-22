@@ -16,7 +16,10 @@ class Header extends Component {
                 <div className="header-tabs-container">
                     <Navigator menus={adminMenu} />
                 </div>
-
+                <div className="header_admin_language d-flex align-items-center justify-content-end">
+                    <span className="active">VI</span>
+                    <span>EN</span>
+                </div>
                 {/* nút logout */}
                 <div className="btn btn-logout" onClick={processLogout}>
                     <i className="fas fa-sign-out-alt"></i>

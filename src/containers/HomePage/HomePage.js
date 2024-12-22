@@ -26,6 +26,7 @@ class HomePage extends Component {
 
         return (
             <div>
+                
                 <HomeHeader />
                 <Sepecialty
                     settings={settings}
